@@ -1,1 +1,569 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>عبد الله شحات | Procurement Officer</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- القائمة العلوية -->
+
+<header class="topbar">
+
+<button id="menuBtn">
+<i class="fa-solid fa-bars"></i>
+</button>
+
+<h2>عبد الله شحات</h2>
+
+<div class="top-actions">
+
+<button id="langBtn">
+<i class="fa-solid fa-language"></i>
+</button>
+
+<button id="themeBtn">
+<i class="fa-solid fa-moon"></i>
+</button>
+
+</div>
+
+</header>
+
+<!-- القائمة الجانبية -->
+
+<aside class="sidebar" id="sidebar">
+
+<div class="profile-side">
+
+<img src="profile.jpg" alt="عبد الله شحات">
+
+<h2>عبد الله شحات</h2>
+
+<p>Procurement Officer</p>
+
+</div>
+
+<nav>
+
+<a href="#home"><i class="fa-solid fa-house"></i> الرئيسية</a>
+
+<a href="#experience"><i class="fa-solid fa-briefcase"></i> الخبرات</a>
+
+<a href="#vision"><i class="fa-solid fa-lightbulb"></i> رؤيتي المهنية</a>
+
+<a href="#philosophy"><i class="fa-solid fa-scale-balanced"></i> فلسفة الشراء</a>
+
+<a href="#skills"><i class="fa-solid fa-gears"></i> المهارات</a>
+
+<a href="#education"><i class="fa-solid fa-graduation-cap"></i> المؤهلات</a>
+
+<a href="#challenge"><i class="fa-solid fa-medal"></i> التحديات</a>
+
+<a href="#kpi"><i class="fa-solid fa-chart-line"></i> KPIs</a>
+
+<a href="#languages"><i class="fa-solid fa-language"></i> اللغات</a>
+
+<a href="#hobbies"><i class="fa-solid fa-heart"></i> الهوايات</a>
+
+<a href="#about"><i class="fa-solid fa-user"></i> نبذة عني</a>
+
+<a href="#contact"><i class="fa-solid fa-phone"></i> التواصل</a>
+
+</nav>
+
+</aside>
+
+<main>
+
+<section class="hero" id="home">
+
+<div class="profile-frame">
+
+<img src="profile.jpg" alt="عبد الله شحات">
+
+</div>
+
+<h1>عبد الله شحات</h1>
+
+<h3>Procurement Officer</h3>
+
+<h2>الملخص المهني</h2>
+
+<p>
+
+مسؤول مشتريات استراتيجي بخبرة عملية مثبتة في إدارة المشتريات، التفاوض التعاقدي، وتحسين التكاليف. أمتلك خلفية قانونية قوية تمنحني ميزة تحليلية في إدارة العقود والمخاطر، ومتمكن من أدوات تحليل البيانات.
+
+</p>
+
+<div class="buttons">
+  <button class="card-btn" onclick="showCard('experience')">
+<i class="fa-solid fa-briefcase"></i>
+الخبرات العملية
+</button>
+
+<button class="card-btn" onclick="showCard('vision')">
+<i class="fa-solid fa-lightbulb"></i>
+رؤيتي المهنية
+</button>
+
+<button class="card-btn" onclick="showCard('philosophy')">
+<i class="fa-solid fa-scale-balanced"></i>
+فلسفة الشراء
+</button>
+
+<button class="card-btn" onclick="showCard('skills')">
+<i class="fa-solid fa-gears"></i>
+المهارات
+</button>
+
+<button class="card-btn" onclick="showCard('education')">
+<i class="fa-solid fa-graduation-cap"></i>
+المؤهلات
+</button>
+
+<button class="card-btn" onclick="showCard('challenge')">
+<i class="fa-solid fa-medal"></i>
+التحديات
+</button>
+
+<button class="card-btn" onclick="showCard('sector')">
+<i class="fa-solid fa-industry"></i>
+الخبرة القطاعية
+</button>
+
+<button class="card-btn" onclick="showCard('kpi')">
+<i class="fa-solid fa-chart-line"></i>
+KPIs
+</button>
+
+<button class="card-btn" onclick="showCard('languages')">
+<i class="fa-solid fa-language"></i>
+اللغات
+</button>
+
+<button class="card-btn" onclick="showCard('hobbies')">
+<i class="fa-solid fa-heart"></i>
+الهوايات
+</button>
+
+<button class="card-btn" onclick="showCard('about')">
+<i class="fa-solid fa-user"></i>
+نبذة عني
+</button>
+
+<button class="card-btn" onclick="showCard('contact')">
+<i class="fa-solid fa-address-card"></i>
+التواصل
+</button>
+
+</div>
+
+<div id="cardContainer" class="popup-card"></div>
+
+</section>
+  <section class="section">
+
+<h2><i class="fa-solid fa-robot"></i> Abdallah AI Assistant</h2>
+
+<div class="ai-chat">
+
+<div class="ai-message">
+
+👋 أهلاً بك، أنا <strong>Abdallah AI</strong>.
+
+يمكنني الإجابة عن أي سؤال يتعلق بخبراتي ومهاراتي ومؤهلاتي.
+
+</div>
+
+<div id="chatBox"></div>
+
+<div class="ai-input">
+
+<input
+type="text"
+id="question"
+placeholder="اسألني أي شيء عن عبد الله...">
+
+<button onclick="askAI()">
+
+<i class="fa-solid fa-paper-plane"></i>
+
+</button>
+
+</div>
+
+</div>
+
+  </section>
+  <!-- ================= الخبرات العملية ================= -->
+
+<section id="experience" class="section">
+
+<h2><i class="fa-solid fa-briefcase"></i> الخبرات العملية</h2>
+
+<div class="card">
+
+<h3>مسؤول مشتريات | شركة بوابة السيارة</h3>
+
+<span>يناير 2025 – حتى الآن</span>
+
+<ul>
+<li>تحقيق وفورات استراتيجية في تكاليف الشراء بنسبة 12%.</li>
+<li>إدارة عمليات التوريد باستخدام Odoo ERP و Zoho ERP.</li>
+<li>خفض نسبة العجز بالمخزون إلى أقل من 2%.</li>
+<li>حل النزاعات التعاقدية مع الموردين.</li>
+<li>تحسين دورة الفوترة.</li>
+</ul>
+
+</div>
+
+<div class="card">
+
+<h3>مسؤول مشتريات | مجموعة شركات النجم الذهبي</h3>
+
+<span>يناير 2023 – ديسمبر 2024</span>
+
+<ul>
+<li>إعادة هيكلة الموردين.</li>
+<li>التفاوض على العقود.</li>
+<li>إدارة أوامر الشراء.</li>
+<li>تقليل التكاليف مع الحفاظ على الجودة.</li>
+</ul>
+
+</div>
+
+</section>
+
+<!-- ================= رؤيتي المهنية ================= -->
+
+<section id="vision" class="section">
+
+<h2><i class="fa-solid fa-lightbulb"></i> رؤيتي المهنية</h2>
+
+<div class="card">
+
+<p>
+
+أرى العقود وسيلة لحماية الشركة وتقليل المخاطر، وأعتبر المورد شريك نجاح استراتيجي يقوم على الثقة والشفافية.
+
+</p>
+
+</div>
+
+</section>
+
+<!-- ================= فلسفة الشراء ================= -->
+
+<section id="philosophy" class="section">
+
+<h2><i class="fa-solid fa-scale-balanced"></i> فلسفة الشراء</h2>
+
+<div class="card">
+
+<p>
+
+أتبنى مفهوم TCO (التكلفة الإجمالية للملكية)، مع التركيز على الجودة والعمر التشغيلي والقيمة طويلة المدى وليس السعر فقط.
+
+</p>
+
+</div>
+
+</section>
+
+<!-- ================= المهارات ================= -->
+
+<section id="skills" class="section">
+
+<h2><i class="fa-solid fa-gears"></i> المهارات</h2>
+
+<div class="card">
+
+<ul>
+
+<li>Odoo ERP</li>
+
+<li>Zoho ERP</li>
+
+<li>إدارة العقود</li>
+
+<li>التفاوض الاحترافي</li>
+
+<li>إدارة المخاطر</li>
+
+<li>إدارة المخزون</li>
+
+<li>تحليل البيانات</li>
+
+<li>البحث عن الموردين</li>
+
+</ul>
+
+</div>
+
+</section>
+  <!-- ================= الخبرة القطاعية ================= -->
+
+<section id="sector" class="section">
+
+<h2><i class="fa-solid fa-industry"></i> الخبرة القطاعية والمهارات التخصصية</h2>
+
+<div class="card">
+
+<ul>
+
+<li><i class="fa-solid fa-circle-check"></i> التحول الرقمي: خبير في دورة المشتريات عبر أنظمة Odoo ERP و Zoho ERP.</li>
+
+<li><i class="fa-solid fa-circle-check"></i> الجانب القانوني: صياغة ومراجعة عقود التوريد وحماية حقوق الشركة.</li>
+
+<li><i class="fa-solid fa-circle-check"></i> إدارة المخاطر وسلاسل الإمداد.</li>
+
+<li><i class="fa-solid fa-circle-check"></i> تقييم الموردين وتحسين الأداء.</li>
+
+</ul>
+
+</div>
+
+</section>
+
+<!-- ================= المؤهلات ================= -->
+
+<section id="education" class="section">
+
+<h2><i class="fa-solid fa-graduation-cap"></i> الدورات التدريبية والمؤهلات</h2>
+
+<div class="card">
+
+<ul>
+
+<li>ليسانس حقوق - جامعة الزقازيق (2021).</li>
+
+<li>دبلومة الإدارة القانونية للشركات - نقابة المحامين بالشرقية (2022).</li>
+
+<li>أساسيات المشتريات وسلاسل الإمداد.</li>
+
+</ul>
+
+</div>
+
+</section>
+
+<!-- ================= التحديات ================= -->
+
+<section id="challenge" class="section">
+
+<h2><i class="fa-solid fa-medal"></i> التحديات والإنجازات</h2>
+
+<div class="card">
+
+<h3>التحدي</h3>
+
+<p>نقص في المواد الخام أدى إلى توقف جزئي في خطوط الإنتاج.</p>
+
+<h3>الإجراء</h3>
+
+<p>إعادة تقييم الموردين وإنشاء نظام Inventory Forecasting للتنبؤ بالاحتياجات قبل حدوث العجز.</p>
+
+<h3>النتيجة</h3>
+
+<p>تقليل Lead Time بنسبة 30% وضمان استمرارية الإنتاج بنسبة 100%.</p>
+
+</div>
+
+</section>
+
+<!-- ================= KPIs ================= -->
+
+<section id="kpi" class="section">
+
+<h2><i class="fa-solid fa-chart-line"></i> مؤشرات الأداء الرئيسية</h2>
+
+<div class="kpi-grid">
+
+<div class="kpi-card">
+<h3>15%</h3>
+<p>Cost Saving</p>
+</div>
+
+<div class="kpi-card">
+<h3>25%</h3>
+<p>Lead Time</p>
+</div>
+
+<div class="kpi-card">
+<h3>98%</h3>
+<p>Inventory Accuracy</p>
+</div>
+
+<div class="kpi-card">
+<h3>&lt;2%</h3>
+<p>Stock-out</p>
+</div>
+
+<div class="kpi-card">
+<h3>&lt;1%</h3>
+<p>Vendor Quality</p>
+</div>
+
+</div>
+
+</section>
+  <!-- ================= اللغات ================= -->
+
+<section id="languages" class="section">
+
+<h2><i class="fa-solid fa-language"></i> اللغات</h2>
+
+<div class="card">
+
+<ul>
+
+<li><i class="fa-solid fa-check"></i> العربية — اللغة الأم.</li>
+
+<li><i class="fa-solid fa-check"></i> الإنجليزية — مستوى احترافي.</li>
+
+</ul>
+
+</div>
+
+</section>
+
+<!-- ================= الهوايات ================= -->
+
+<section id="hobbies" class="section">
+
+<h2><i class="fa-solid fa-heart"></i> الهوايات</h2>
+
+<div class="card">
+
+<ul>
+
+<li>📚 القراءة.</li>
+
+<li>🎓 التعليم المستمر.</li>
+
+<li>💻 متابعة تطورات التكنولوجيا.</li>
+
+<li>📈 تطوير الذات.</li>
+
+</ul>
+
+</div>
+
+</section>
+
+<!-- ================= نبذة مختصرة ================= -->
+
+<section id="about" class="section">
+
+<h2><i class="fa-solid fa-user"></i> نبذة مختصرة عني</h2>
+
+<div class="card">
+
+<p>
+
+مسؤول مشتريات استراتيجي بخبرة عملية في إدارة المشتريات، وإدارة العقود، والتفاوض مع الموردين، وتحليل التكاليف، وأسعى دائماً لتحقيق أفضل قيمة للشركة مع بناء علاقات طويلة الأمد مع الموردين وتحسين كفاءة العمليات.
+
+</p>
+
+</div>
+
+</section>
+
+<!-- ================= معلومات التواصل ================= -->
+
+<section id="contact" class="section">
+
+<h2><i class="fa-solid fa-address-card"></i> معلومات التواصل</h2>
+
+<div class="card">
+
+<p><i class="fa-solid fa-location-dot"></i> الرياض - المملكة العربية السعودية</p>
+
+<p><i class="fa-solid fa-phone"></i> 0565120349</p>
+
+<p><i class="fa-solid fa-envelope"></i> Abdallahelshahat027@gmail.com</p>
+
+<p><i class="fa-brands fa-whatsapp"></i> WhatsApp : 0565120349</p>
+
+</div>
+
+</section>
+
+<!-- ================= رسالة الشكر ================= -->
+
+<section class="section">
+
+<div class="card" style="text-align:center">
+
+<h2>🌹 لكم مني جزيل الشكر 🌹</h2>
+
+<p>
+
+شكراً لوقتكم الكريم واطلاعكم على ملفي الشخصي، وأتطلع إلى فرصة للانضمام إلى فريق عمل يقدر الاحترافية والكفاءة ويساهم في تحقيق النجاح المشترك.
+
+</p>
+
+</div>
+
+</section>
+
+</main>
+
+<button id="topBtn">
+
+<i class="fa-solid fa-arrow-up"></i>
+
+</button>
+
+<footer>
+
+<h2>عبد الله شحات</h2>
+
+<p>Procurement Officer</p>
+
+<div class="social">
+
+<a href="tel:0565120349">
+<i class="fa-solid fa-phone"></i>
+</a>
+
+<a href="mailto:Abdallahelshahat027@gmail.com">
+<i class="fa-solid fa-envelope"></i>
+</a>
+
+<a href="https://wa.me/966565120349">
+<i class="fa-brands fa-whatsapp"></i>
+</a>
+
+</div>
+
+<p>
+
+© 2026 All Rights Reserved | Abdallah Elshahat
+
+</p>
+
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
