@@ -213,6 +213,83 @@ question.addEventListener("keypress",(e)=>{
 
         askAI();
 
-    }
+    }// ===============================
+// Animation On Scroll
+// ===============================
+
+const sections = document.querySelectorAll(".section");
+
+const observer = new IntersectionObserver((entries)=>{
+
+    entries.forEach(entry=>{
+
+        if(entry.isIntersecting){
+
+            entry.style = "";
+
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+
+        }
+
+    });
+
+},{threshold:0.2});
+
+sections.forEach(section=>{
+
+    section.style.opacity="0";
+    section.style.transform="translateY(40px)";
+    section.style.transition=".6s";
+
+    observer.observe(section);
+
+});
+
+// ===============================
+// Active Menu
+// ===============================
+
+const navLinks=document.querySelectorAll(".sidebar nav a");
+
+window.addEventListener("scroll",()=>{
+
+    let current="";
+
+    sections.forEach(section=>{
+
+        const top=section.offsetTop-150;
+
+        if(window.scrollY>=top){
+
+            current=section.getAttribute("id");
+
+        }
+
+    });
+
+    navLinks.forEach(link=>{
+
+        link.classList.remove("active");
+
+        if(link.getAttribute("href")==="#"+current){
+
+            link.classList.add("active");
+
+        }
+
+    });
+
+});
+
+// ===============================
+// Welcome
+// ===============================
+
+window.addEventListener("load",()=>{
+
+    console.log("Abdallah Portfolio Loaded");
+
+});
 
 });
