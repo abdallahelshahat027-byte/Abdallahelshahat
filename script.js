@@ -276,6 +276,162 @@ function findAnswer(question){
                     }
 
                 }
+// ===============================
+// Smart Normalize V2
+// ===============================
+
+function normalizeQuestion(text){
+
+    return text
+        .toLowerCase()
+
+        // إزالة التشكيل
+        .replace(/[ًٌٍَُِّْـ]/g,"")
+
+        // توحيد الحروف
+        .replace(/[أإآ]/g,"ا")
+        .replace(/ة/g,"ه")
+        .replace(/ى/g,"ي")
+        .replace(/ؤ/g,"و")
+        .replace(/ئ/g,"ي")
+
+        // حذف الرموز
+        .replace(/[؟?!.,،؛:()"']/g," ")
+
+        // حذف الإيموجي
+        .replace(/[\u{1F300}-\u{1FAFF}]/gu," ")
+
+        // حذف المسافات الزائدة
+        .replace(/\s+/g," ")
+
+        .trim();
+
+}
+
+// ===============================
+// Smart Synonyms
+// ===============================
+
+const smartDictionary = {
+
+hello:[
+"ازيك","ازيك؟","عامل اي","عامل ايه","اخبارك",
+"السلام عليكم","السلام","صباح الخير",
+"مساء الخير","هلا","اهلا","هاي","hello","hi"
+],
+
+name:[
+"اسمك","اسم","مين انت","من انت",
+"عرف نفسك","احكي عن نفسك",
+"قدم نفسك","نبذه","نبذة",
+"who are you","introduce yourself",
+"tell me about yourself"
+],
+
+age:[
+"سنك","العمر","كام سنه","كام سنة",
+"كم عمرك","عندك كام سنة","age","how old"
+],
+
+country:[
+"منين","انت منين","بلدك",
+"فين","مدينه","مدينة",
+"محافظه","محافظة",
+"where are you from",
+"country","city"
+],
+
+job:[
+"بتشتغل اي",
+"شغلك",
+"شغال اي",
+"وظيفتك",
+"وظيفه",
+"شغلك اي",
+"وظيفتك اي",
+"current job",
+"job title"
+],
+
+experience:[
+"خبره",
+"خبرة",
+"خبرات",
+"خبرتك",
+"اشتغلت فين",
+"فين اشتغلت",
+"work experience",
+"experience"
+],
+
+hire:[
+"ليه اشغلك",
+"اشغلك ليه",
+"ليه نوظفك",
+"لماذا نوظفك",
+"why hire you",
+"why should we hire you",
+"best candidate"
+],
+
+skills:[
+"مهارات",
+"المهارات",
+"بتعرف تعمل اي",
+"skills",
+"skill"
+],
+
+education:[
+"تعليم",
+"المؤهل",
+"المؤهلات",
+"دراستك",
+"الشهاده",
+"education",
+"degree"
+],
+
+salary:[
+"راتب",
+"مرتب",
+"الراتب",
+"salary",
+"expected salary"
+]
+
+};
+// ===============================
+// Smart Find Answer V2
+// ===============================
+
+function findAnswer(question){
+
+    const q = normalizeQuestion(question);
+
+    // البحث المباشر
+    let bestAnswer = "";
+    let bestScore = 0;
+
+    knowledge.forEach(item=>{
+
+        let score = 0;
+
+        item.keywords.forEach(keyword=>{
+
+            const key = normalizeQuestion(keyword);
+
+            if(q.includes(key) || key.includes(q)){
+                score += 5;
+            }
+
+            const words = key.split(" ");
+
+            words.forEach(word=>{
+
+                if(word.length>2 && q.includes(word)){
+                    score++;
+                }
 
             });
 
@@ -290,39 +446,69 @@ function findAnswer(question){
 
     });
 
-    // تحيات
-    if(/ازيك|عامل اي|السلام|اهلا|مرحبا|هاي|hello|hi/.test(q)){
-        return "أهلاً بك 👋 أنا Abdallah AI. اسألني أي شيء عن عبدالله الشحات وخبراته ومهاراته.";
-    }
-
-    // شكر
-    if(/شكرا|متشكر|thanks|thank/.test(q)){
-        return "العفو ❤️ سعيد بمساعدتك.";
-    }
-
-    if(bestScore >= 2)
+    if(bestAnswer!==""){
         return bestAnswer;
+    }
 
-    return `
-🤖 عذراً، أنا مخصص للإجابة عن الأسئلة الخاصة بعبدالله الشحات فقط.
+    // البحث بالمرادفات
+    for(const group in smartDictionary){
 
-يمكنك سؤالي مثل:
+        for(const word of smartDictionary[group]){
 
-• عرف نفسك
-• كام سنة
-• خبرتك
-• اشتغلت فين
-• ليه نوظفك
-• نقاط القوة
-• نقاط الضعف
-• مهاراتك
-• مؤهلك
+            if(q.includes(normalizeQuestion(word))){
+
+                knowledge.forEach(item=>{
+
+                    item.keywords.forEach(keyword=>{
+
+                        const k = normalizeQuestion(keyword);
+
+                        if(k.includes(group) || k===group){
+
+                            bestAnswer=item.answer;
+
+                        }
+
+                    });
+
+                });
+
+            }
+
+        }
+
+    }
+
+    if(bestAnswer!==""){
+        return bestAnswer;
+    }
+
+    return `🤖
+
+عذراً، لم أفهم السؤال.
+
+يمكنك سؤالي عن أي شيء يخص عبدالله الشحات مثل:
+
+• التعريف بنفسه
+• العمر
+• مكان الإقامة
+• الخبرات
+• الشركات التي عمل بها
+• المهارات
+• المؤهلات
+• نقاط القوة والضعف
+• الإنجازات
+• المشتريات
+• الموردين
+• العقود
 • Odoo ERP
 • Zoho ERP
-• الإنجازات
+• Excel
+• المقابلات الشخصية
+• الراتب المتوقع
+• الأهداف المهنية
 `;
-}
-});
+}                
 // =======================================
 // Animation On Scroll
 // =======================================
