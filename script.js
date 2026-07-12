@@ -357,10 +357,25 @@ function askAI(){
 
     setTimeout(()=>{
 
-        const answer = findAnswer(q);
+        setTimeout(()=>{
 
-        typeWriter(bot,answer);
+    let answer = "";
 
+    try{
+
+        answer = findAnswer(q);
+
+    }catch(e){
+
+        console.error(e);
+
+        answer = "❌ خطأ: " + e.message;
+
+    }
+
+    typeWriter(bot,answer);
+
+},300);
     },300);
 
     question.value="";
