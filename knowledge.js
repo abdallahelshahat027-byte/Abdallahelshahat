@@ -1,8 +1,6 @@
 const knowledge = [
 
     // هنا هنضيف البيانات
-
-];
 {
 keywords:[
 
