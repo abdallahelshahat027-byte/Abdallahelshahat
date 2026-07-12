@@ -100,220 +100,11 @@ langBtn.addEventListener("click",()=>{
 // Abdallah AI Engine
 // =======================================
 
+// =======================================
+// Abdallah AI Engine V3
+// =======================================
+
 // تنظيف السؤال
-function normalizeQuestion(text){
-
-    return text
-        .toLowerCase()
-        .replace(/[؟?!.,،]/g,"")
-        .replace(/\s+/g," ")
-        .trim();
-
-}
-function similarity(a,b){
-
-    a=normalizeQuestion(a);
-    b=normalizeQuestion(b);
-
-    let score=0;
-
-    const wa=a.split(" ");
-    const wb=b.split(" ");
-
-    wa.forEach(word=>{
-
-        if(wb.includes(word)){
-            score+=3;
-        }else{
-
-            wb.forEach(w=>{
-
-                if(
-                    word.startsWith(w)||
-                    w.startsWith(word)
-                ){
-                    score++;
-                }
-
-            });
-
-        }
-
-    });
-
-    return score;
-
-}
-
-// البحث داخل قاعدة البيانات
-function findAnswer(question){
-
-    const q = normalizeQuestion(question);
-
-    let bestAnswer = "";
-    let bestScore = 0;
-
-    knowledge.forEach(item=>{
-
-        let score = 0;
-
-        item.keywords.forEach(keyword=>{
-
-            if(q.includes(keyword.toLowerCase())){
-                score++;
-            }
-
-        });
-
-        if(score > bestScore){
-            bestScore = score;
-            bestAnswer = item.answer;
-        }
-
-    });
-
-    if(bestAnswer !== ""){
-        return bestAnswer;
-    }
-
-    return `
-🤖 عذراً، لا أملك إجابة لهذا السؤال.
-
-يمكنك سؤالي عن:
-
-• الخبرات
-• المهارات
-• المؤهلات
-• المشتريات
-• الموردين
-• العقود
-• Odoo ERP
-• Zoho ERP
-• مقابلات العمل
-`;
-}
-
-// الكتابة التدريجية
-function typeWriter(element,text){
-
-    let i = 0;
-
-    element.innerHTML = "🤖 ";
-
-    const timer = setInterval(()=>{
-
-        element.innerHTML = "🤖 " + text.substring(0,i);
-
-        i++;
-
-        chatBox.scrollTop = chatBox.scrollHeight;
-
-        if(i > text.length){
-            clearInterval(timer);
-        }
-
-    },15);
-
-}
-
-// إرسال السؤال
-function askAI(){
-
-    const q = question.value.trim();
-
-    if(q==="") return;
-
-    const user=document.createElement("div");
-    user.className="user-message";
-    user.innerHTML="🧑 "+q;
-
-    chatBox.appendChild(user);
-
-    const bot=document.createElement("div");
-    bot.className="bot-message";
-
-    chatBox.appendChild(bot);
-
-    const answer=findAnswer(q);
-
-    typeWriter(bot,answer);
-
-    question.value="";
-
-    chatBox.scrollTop=chatBox.scrollHeight;
-
-}
-
-// Enter
-question.addEventListener("keydown",(e)=>{
-
-    if(e.key==="Enter"){
-        askAI();
-    }
-
-});
-
-// رسالة البداية
-window.addEventListener("load",()=>{
-function findAnswer(question){
-
-    const q = normalizeQuestion(question);
-
-    // مرادفات الكلمات
-    const synonyms = {
-        "اسم":["اسم","الاسم","مين","من","تعرف","عرف","نفسك"],
-        "عمر":["عمر","سن","سنة","كام","age"],
-        "خبرة":["خبرة","خبرتك","اشتغلت","وظيفتك","شغل","experience"],
-        "مهارة":["مهارة","مهارات","تميز","مميزات","skills"],
-        "تعليم":["تعليم","مؤهل","جامعة","شهادة","دراسة","education"],
-        "راتب":["راتب","مرتب","salary"],
-        "قوة":["قوة","تميز","مميزات","strength"],
-        "ضعف":["ضعف","عيوب","weakness"],
-        "هدف":["هدف","طموح","مستقبل","career"],
-        "شركة":["بوابة","النجم","شركة","company"],
-        "اودو":["odoo","اودو"],
-        "زوهو":["zoho","زوهو"]
-    };
-
-    let bestAnswer = "";
-    let bestScore = 0;
-
-    knowledge.forEach(item=>{
-
-        let score = 0;
-
-        item.keywords.forEach(keyword=>{
-
-            keyword = normalizeQuestion(keyword);
-
-            if(q.includes(keyword))
-                score += 10;
-
-            const words = keyword.split(" ");
-
-            words.forEach(word=>{
-
-                if(q.includes(word))
-                    score += 2;
-
-                for(const key in synonyms){
-
-                    if(synonyms[key].includes(word)){
-
-                        synonyms[key].forEach(s=>{
-
-                            if(q.includes(s))
-                                score++;
-
-                        });
-
-                    }
-
-                }
-// ===============================
-// Smart Normalize V2
-// ===============================
-
 function normalizeQuestion(text){
 
     return text
@@ -330,120 +121,61 @@ function normalizeQuestion(text){
         .replace(/ئ/g,"ي")
 
         // حذف الرموز
-        .replace(/[؟?!.,،؛:()"']/g," ")
+        .replace(/[^\w\s\u0600-\u06FF]/g," ")
 
-        // حذف الإيموجي
-        .replace(/[\u{1F300}-\u{1FAFF}]/gu," ")
-
-        // حذف المسافات الزائدة
+        // حذف المسافات
         .replace(/\s+/g," ")
 
         .trim();
 
 }
 
-// ===============================
-// Smart Synonyms
-// ===============================
-
-const smartDictionary = {
+// مرادفات
+const smartDictionary={
 
 hello:[
-"ازيك","ازيك؟","عامل اي","عامل ايه","اخبارك",
-"السلام عليكم","السلام","صباح الخير",
-"مساء الخير","هلا","اهلا","هاي","hello","hi"
+"ازيك","عامل اي","عامل ايه","اخبارك","السلام عليكم","السلام","اهلا","هاي","هلا","hi","hello"
 ],
 
-name:[
-"اسمك","اسم","مين انت","من انت",
-"عرف نفسك","احكي عن نفسك",
-"قدم نفسك","نبذه","نبذة",
-"who are you","introduce yourself",
-"tell me about yourself"
+about:[
+"عرف نفسك","احكي عن نفسك","قدم نفسك","مين انت","من انت","نبذه","نبذة","about","introduce yourself"
 ],
 
 age:[
-"سنك","العمر","كام سنه","كام سنة",
-"كم عمرك","عندك كام سنة","age","how old"
+"كام سنه","كام سنة","سنك","العمر","كم عمرك","age"
 ],
 
 country:[
-"منين","انت منين","بلدك",
-"فين","مدينه","مدينة",
-"محافظه","محافظة",
-"where are you from",
-"country","city"
-],
-
-job:[
-"بتشتغل اي",
-"شغلك",
-"شغال اي",
-"وظيفتك",
-"وظيفه",
-"شغلك اي",
-"وظيفتك اي",
-"current job",
-"job title"
+"منين","بلدك","فين","مدينة","محافظة","where are you from"
 ],
 
 experience:[
-"خبره",
-"خبرة",
-"خبرات",
-"خبرتك",
-"اشتغلت فين",
-"فين اشتغلت",
-"work experience",
-"experience"
-],
-
-hire:[
-"ليه اشغلك",
-"اشغلك ليه",
-"ليه نوظفك",
-"لماذا نوظفك",
-"why hire you",
-"why should we hire you",
-"best candidate"
+"خبره","خبرة","خبرتك","خبرات","اشتغلت فين","فين اشتغلت","experience"
 ],
 
 skills:[
-"مهارات",
-"المهارات",
-"بتعرف تعمل اي",
-"skills",
-"skill"
+"مهارات","المهارات","بتعرف تعمل اي","skills"
 ],
 
 education:[
-"تعليم",
-"المؤهل",
-"المؤهلات",
-"دراستك",
-"الشهاده",
-"education",
-"degree"
+"المؤهل","المؤهلات","تعليم","دراستك","education"
 ],
 
 salary:[
-"راتب",
-"مرتب",
-"الراتب",
-"salary",
-"expected salary"
+"راتب","مرتب","salary"
+],
+
+hire:[
+"ليه اشغلك","ليه نوظفك","why should we hire you"
+    
 ]
 
 };
-// ===============================
-// Smart Find Answer V2
-// ===============================
-
+// البحث الذكي
 function findAnswer(question){
 
     const q = normalizeQuestion(question);
 
-    // البحث المباشر
     let bestAnswer = "";
     let bestScore = 0;
 
@@ -455,16 +187,44 @@ function findAnswer(question){
 
             const key = normalizeQuestion(keyword);
 
-            if(q.includes(key) || key.includes(q)){
-                score += 5;
+            // تطابق كامل
+            if(q === key){
+                score += 100;
             }
 
-            const words = key.split(" ");
+            // يحتوي الكلمة
+            if(q.includes(key)){
+                score += 40;
+            }
 
-            words.forEach(word=>{
+            // الكلمة تحتوي السؤال
+            if(key.includes(q)){
+                score += 30;
+            }
 
-                if(word.length>2 && q.includes(word)){
-                    score++;
+            // مقارنة كلمة بكلمة
+            const qWords = q.split(" ");
+            const kWords = key.split(" ");
+
+            qWords.forEach(word=>{
+
+                if(word.length < 2) return;
+
+                if(kWords.includes(word)){
+                    score += 8;
+                }else{
+
+                    kWords.forEach(k=>{
+
+                        if(
+                            k.startsWith(word) ||
+                            word.startsWith(k)
+                        ){
+                            score += 3;
+                        }
+
+                    });
+
                 }
 
             });
@@ -480,7 +240,7 @@ function findAnswer(question){
 
     });
 
-    if(bestAnswer!==""){
+    if(bestAnswer !== ""){
         return bestAnswer;
     }
 
@@ -495,12 +255,13 @@ function findAnswer(question){
 
                     item.keywords.forEach(keyword=>{
 
-                        const k = normalizeQuestion(keyword);
+                        const key = normalizeQuestion(keyword);
 
-                        if(k.includes(group) || k===group){
-
-                            bestAnswer=item.answer;
-
+                        if(
+                            key.includes(group) ||
+                            key === group
+                        ){
+                            bestAnswer = item.answer;
                         }
 
                     });
@@ -513,108 +274,248 @@ function findAnswer(question){
 
     }
 
-    if(bestAnswer!==""){
+    if(bestAnswer !== ""){
         return bestAnswer;
     }
 
-    return `🤖
+    return `
+🤖 آسف، لم أفهم السؤال.
 
-عذراً، لم أفهم السؤال.
+أنا أجيب فقط عن عبدالله الشحات.
 
-يمكنك سؤالي عن أي شيء يخص عبدالله الشحات مثل:
+اسألني عن:
 
-• التعريف بنفسه
-• العمر
-• مكان الإقامة
 • الخبرات
-• الشركات التي عمل بها
 • المهارات
 • المؤهلات
-• نقاط القوة والضعف
+• الشركات
+• العمر
+• مكان الإقامة
 • الإنجازات
 • المشتريات
 • الموردين
 • العقود
 • Odoo ERP
 • Zoho ERP
+• مقابلات العمل
+`;
+                   }
+
+// =======================================
+// كتابة تدريجية
+// =======================================
+
+function typeWriter(element,text){
+
+    let i = 0;
+
+    element.innerHTML = "🤖 ";
+
+    const timer = setInterval(()=>{
+
+        element.innerHTML = "🤖 " + text.substring(0,i);
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        i++;
+
+        if(i > text.length){
+            clearInterval(timer);
+        }
+
+    },10);
+
+}
+
+// =======================================
+// إرسال السؤال
+// =======================================
+
+function askAI(){
+
+    const q = question.value.trim();
+
+    if(q === "") return;
+
+    // رسالة المستخدم
+    const user = document.createElement("div");
+
+    user.className = "user-message";
+    user.innerHTML = "🧑 " + q;
+
+    chatBox.appendChild(user);
+
+    // رسالة البوت
+    const bot = document.createElement("div");
+
+    bot.className = "bot-message";
+    bot.innerHTML = "🤖 جاري التفكير...";
+
+    chatBox.appendChild(bot);
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    setTimeout(()=>{
+
+        const answer = findAnswer(q);
+
+        typeWriter(bot,answer);
+
+    },300);
+
+    question.value="";
+
+}
+
+// Enter
+question.addEventListener("keydown",(e)=>{
+
+    if(e.key==="Enter"){
+        askAI();
+    }
+
+});
+
+// رسالة البداية
+window.addEventListener("load",()=>{
+
+    const bot=document.createElement("div");
+
+    bot.className="bot-message";
+
+    bot.innerHTML=`
+🤖 أهلاً بك 👋
+
+أنا <b>Abdallah AI</b>.
+
+يمكنني الإجابة عن أي سؤال يخص عبدالله الشحات فقط.
+
+مثل:
+
+• عرف نفسك
+• خبرتك
+• مهاراتك
+• مؤهلاتك
+• الشركات التي عملت بها
+• الإنجازات
+• لماذا نوظفك؟
+`;
+
+    chatBox.appendChild(bot);
+
+});
+// =======================================
+// فهم الأسئلة بذكاء
+// =======================================
+
+function smartSearch(question){
+
+    const q = normalizeQuestion(question);
+
+    let bestAnswer = "";
+    let bestScore = 0;
+
+    knowledge.forEach(item=>{
+
+        let score = 0;
+
+        item.keywords.forEach(keyword=>{
+
+            const key = normalizeQuestion(keyword);
+
+            // تطابق كامل
+            if(q === key) score += 100;
+
+            // يحتوي
+            if(q.includes(key)) score += 40;
+
+            // العكس
+            if(key.includes(q)) score += 30;
+
+            // تشابه الكلمات
+            const qWords = q.split(" ");
+            const kWords = key.split(" ");
+
+            qWords.forEach(word=>{
+
+                if(word.length < 2) return;
+
+                if(kWords.includes(word)){
+
+                    score += 10;
+
+                }else{
+
+                    kWords.forEach(k=>{
+
+                        if(
+                            word.startsWith(k) ||
+                            k.startsWith(word)
+                        ){
+                            score += 5;
+                        }
+
+                    });
+
+                }
+
+            });
+
+        });
+
+        if(score > bestScore){
+
+            bestScore = score;
+            bestAnswer = item.answer;
+
+        }
+
+    });
+
+    return {
+        answer: bestAnswer,
+        score: bestScore
+    };
+
+}
+
+// استبدل findAnswer بهذه النسخة
+
+function findAnswer(question){
+
+    const result = smartSearch(question);
+
+    if(result.score >= 10){
+
+        return result.answer;
+
+    }
+
+    return `🤖
+
+لم أفهم السؤال.
+
+أنا أجيب فقط عن عبدالله الشحات.
+
+يمكنك سؤالي عن:
+
+• من هو عبدالله الشحات
+• العمر
+• الخبرة
+• الشركات
+• المهارات
+• المؤهلات
+• الإنجازات
+• نقاط القوة
+• نقاط الضعف
+• Odoo ERP
+• Zoho ERP
 • Excel
+• الموردين
+• العقود
 • المقابلات الشخصية
 • الراتب المتوقع
 • الأهداف المهنية
+• المشتريات
 `;
-}                
-// =======================================
-// Animation On Scroll
-// =======================================
-
-const sections = document.querySelectorAll(".section");
-
-const observer = new IntersectionObserver((entries)=>{
-
-    entries.forEach(entry=>{
-
-        if(entry.isIntersecting){
-
-            entry.target.style.opacity = "1";
-            entry.target.style.transform = "translateY(0)";
-
-        }
-
-    });
-
-},{threshold:0.2});
-
-sections.forEach(section=>{
-
-    section.style.opacity="0";
-    section.style.transform="translateY(40px)";
-    section.style.transition="0.6s";
-
-    observer.observe(section);
-
-});
-
-// =======================================
-// Active Menu
-// =======================================
-
-const navLinks=document.querySelectorAll(".sidebar nav a");
-
-window.addEventListener("scroll",()=>{
-
-    let current="";
-
-    sections.forEach(section=>{
-
-        const top=section.offsetTop-150;
-
-        if(window.scrollY>=top){
-            current=section.id;
-        }
-
-    });
-
-    navLinks.forEach(link=>{
-
-        link.classList.remove("active");
-
-        if(link.getAttribute("href")==="#"+current){
-
-            link.classList.add("active");
-
-        }
-
-    });
-
-});
-
-// =======================================
-// Portfolio Loaded
-// =======================================
-
-window.addEventListener("load",()=>{
-
-    console.log("✅ Abdallah Portfolio Loaded");
-
-});
-
+}
