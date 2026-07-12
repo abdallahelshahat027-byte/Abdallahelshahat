@@ -221,21 +221,107 @@ question.addEventListener("keydown",(e)=>{
 
 // رسالة البداية
 window.addEventListener("load",()=>{
+function findAnswer(question){
 
-    const bot=document.createElement("div");
+    const q = normalizeQuestion(question);
 
-    bot.className="bot-message";
+    // مرادفات الكلمات
+    const synonyms = {
+        "اسم":["اسم","الاسم","مين","من","تعرف","عرف","نفسك"],
+        "عمر":["عمر","سن","سنة","كام","age"],
+        "خبرة":["خبرة","خبرتك","اشتغلت","وظيفتك","شغل","experience"],
+        "مهارة":["مهارة","مهارات","تميز","مميزات","skills"],
+        "تعليم":["تعليم","مؤهل","جامعة","شهادة","دراسة","education"],
+        "راتب":["راتب","مرتب","salary"],
+        "قوة":["قوة","تميز","مميزات","strength"],
+        "ضعف":["ضعف","عيوب","weakness"],
+        "هدف":["هدف","طموح","مستقبل","career"],
+        "شركة":["بوابة","النجم","شركة","company"],
+        "اودو":["odoo","اودو"],
+        "زوهو":["zoho","زوهو"]
+    };
 
-    bot.innerHTML=`
-🤖 مرحباً 👋
+    let bestAnswer = "";
+    let bestScore = 0;
 
-أنا Abdallah AI.
+    knowledge.forEach(item=>{
 
-اسألني أي سؤال عن عبدالله الشحات أو خبراته أو المشتريات.
+        let score = 0;
+
+        item.keywords.forEach(keyword=>{
+
+            keyword = normalizeQuestion(keyword);
+
+            if(q.includes(keyword))
+                score += 10;
+
+            const words = keyword.split(" ");
+
+            words.forEach(word=>{
+
+                if(q.includes(word))
+                    score += 2;
+
+                for(const key in synonyms){
+
+                    if(synonyms[key].includes(word)){
+
+                        synonyms[key].forEach(s=>{
+
+                            if(q.includes(s))
+                                score++;
+
+                        });
+
+                    }
+
+                }
+
+            });
+
+        });
+
+        if(score > bestScore){
+
+            bestScore = score;
+            bestAnswer = item.answer;
+
+        }
+
+    });
+
+    // تحيات
+    if(/ازيك|عامل اي|السلام|اهلا|مرحبا|هاي|hello|hi/.test(q)){
+        return "أهلاً بك 👋 أنا Abdallah AI. اسألني أي شيء عن عبدالله الشحات وخبراته ومهاراته.";
+    }
+
+    // شكر
+    if(/شكرا|متشكر|thanks|thank/.test(q)){
+        return "العفو ❤️ سعيد بمساعدتك.";
+    }
+
+    if(bestScore >= 2)
+        return bestAnswer;
+
+    return `
+🤖 عذراً، أنا مخصص للإجابة عن الأسئلة الخاصة بعبدالله الشحات فقط.
+
+يمكنك سؤالي مثل:
+
+• عرف نفسك
+• كام سنة
+• خبرتك
+• اشتغلت فين
+• ليه نوظفك
+• نقاط القوة
+• نقاط الضعف
+• مهاراتك
+• مؤهلك
+• Odoo ERP
+• Zoho ERP
+• الإنجازات
 `;
-
-    chatBox.appendChild(bot);
-
+}
 });
 // =======================================
 // Animation On Scroll
