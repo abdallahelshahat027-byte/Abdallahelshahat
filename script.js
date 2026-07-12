@@ -110,6 +110,40 @@ function normalizeQuestion(text){
         .trim();
 
 }
+function similarity(a,b){
+
+    a=normalizeQuestion(a);
+    b=normalizeQuestion(b);
+
+    let score=0;
+
+    const wa=a.split(" ");
+    const wb=b.split(" ");
+
+    wa.forEach(word=>{
+
+        if(wb.includes(word)){
+            score+=3;
+        }else{
+
+            wb.forEach(w=>{
+
+                if(
+                    word.startsWith(w)||
+                    w.startsWith(word)
+                ){
+                    score++;
+                }
+
+            });
+
+        }
+
+    });
+
+    return score;
+
+}
 
 // البحث داخل قاعدة البيانات
 function findAnswer(question){
