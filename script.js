@@ -1,35 +1,48 @@
+// ===================================
+// Abdallah Portfolio Script
+// ===================================
 
-// ===============================
-// Abdallah Portfolio AI
-// ===============================
-
-// القائمة الجانبية
-
+// العناصر
 const menuBtn = document.getElementById("menuBtn");
 const sidebar = document.getElementById("sidebar");
-const overlay = document.getElementById("overlay");
+const themeBtn = document.getElementById("themeBtn");
+const langBtn = document.getElementById("langBtn");
+const topBtn = document.getElementById("topBtn");
 
-menuBtn.onclick = () => {
+// إنشاء Overlay تلقائياً
+const overlay = document.createElement("div");
+overlay.id = "overlay";
+document.body.appendChild(overlay);
+
+// ===============================
+// القائمة الجانبية
+// ===============================
+
+menuBtn.addEventListener("click", () => {
 
     sidebar.classList.toggle("active");
     overlay.classList.toggle("active");
 
-};
+});
 
-overlay.onclick = () => {
+overlay.addEventListener("click", () => {
 
     sidebar.classList.remove("active");
     overlay.classList.remove("active");
 
-};
+});
 
 // ===============================
 // دارك مود
 // ===============================
 
-const darkBtn = document.getElementById("darkBtn");
+if(localStorage.getItem("theme")=="dark"){
 
-darkBtn.onclick = () => {
+    document.body.classList.add("dark");
+
+}
+
+themeBtn.addEventListener("click",()=>{
 
     document.body.classList.toggle("dark");
 
@@ -43,23 +56,15 @@ darkBtn.onclick = () => {
 
     }
 
-};
-
-if(localStorage.getItem("theme")=="dark"){
-
-    document.body.classList.add("dark");
-
-}
+});
 
 // ===============================
-// زر العودة للأعلى
+// زر أعلى الصفحة
 // ===============================
 
-const topBtn=document.getElementById("topBtn");
+window.addEventListener("scroll",()=>{
 
-window.onscroll=function(){
-
-    if(document.documentElement.scrollTop>300){
+    if(window.scrollY>300){
 
         topBtn.style.display="block";
 
@@ -69,287 +74,145 @@ window.onscroll=function(){
 
     }
 
-};
+});
 
-topBtn.onclick=function(){
+topBtn.addEventListener("click",()=>{
 
     window.scrollTo({
 
         top:0,
-
         behavior:"smooth"
 
     });
-  // ===============================
+
+});// ===============================
+// الترجمة (عربي / إنجليزي)
+// ===============================
+
+let currentLang = "ar";
+
+langBtn.addEventListener("click",()=>{
+
+    if(currentLang==="ar"){
+
+        document.documentElement.lang="en";
+        document.documentElement.dir="ltr";
+
+        langBtn.innerHTML='<i class="fa-solid fa-language"></i>';
+
+        currentLang="en";
+
+    }else{
+
+        document.documentElement.lang="ar";
+        document.documentElement.dir="rtl";
+
+        langBtn.innerHTML='<i class="fa-solid fa-language"></i>';
+
+        currentLang="ar";
+
+    }
+
+});
+
+// ===============================
 // Abdallah AI Assistant
 // ===============================
 
+const question=document.getElementById("question");
+const chatBox=document.getElementById("chatBox");
+
 function askAI(){
 
-let input=document.getElementById("question");
-let chat=document.getElementById("chatBox");
+    const q=question.value.trim();
 
-let q=input.value.trim();
+    if(q==="") return;
 
-if(q=="") return;
+    const user=document.createElement("div");
+    user.className="user-message";
+    user.innerHTML="🧑 "+q;
 
-let user=document.createElement("div");
-user.className="user-message";
-user.innerHTML="🧑 "+q;
+    chatBox.appendChild(user);
 
-chat.appendChild(user);
+    let answer="";
 
-let answer="";
+    const text=q.toLowerCase();
 
-let text=q.toLowerCase();
+    if(text.includes("خبر") || text.includes("experience")){
 
-if(text.includes("خبر") || text.includes("experience")){
+        answer="لدي خبرة كمسؤول مشتريات في شركة بوابة السيارة ومجموعة شركات النجم الذهبي، مع خبرة في التفاوض وإدارة الموردين وتقليل التكاليف.";
 
-answer="لدي خبرة كمسؤول مشتريات في شركة بوابة السيارة ومجموعة شركات النجم الذهبي، مع خبرة في التفاوض وإدارة الموردين وتقليل التكاليف.";
+    }
 
-}
+    else if(text.includes("مهار")){
 
-else if(text.includes("مهار") || text.includes("skill")){
+        answer="أجيد Odoo ERP وZoho ERP وإدارة العقود والتفاوض وإدارة المخاطر وتحليل البيانات.";
 
-answer="أجيد Odoo ERP وZoho ERP وإدارة العقود والتفاوض الاحترافي وإدارة المخاطر وتحليل البيانات وإدارة المخزون.";
+    }
 
-}
+    else if(text.includes("مؤهل") || text.includes("تعليم")){
 
-else if(text.includes("مؤهل") || text.includes("تعليم")){
+        answer="ليسانس حقوق، ودبلومة الإدارة القانونية للشركات، ودورات في المشتريات وسلاسل الإمداد.";
 
-answer="ليسانس حقوق من جامعة الزقازيق، ودبلومة الإدارة القانونية للشركات، بالإضافة إلى دورات في المشتريات وسلاسل الإمداد.";
+    }
 
-}
+    else if(text.includes("لغة")){
 
-else if(text.includes("لغة")){
+        answer="العربية لغة أم، والإنجليزية مستوى احترافي.";
 
-answer="أتحدث العربية كلغة أم، والإنجليزية بمستوى احترافي.";
+    }
 
-}
+    else if(text.includes("تواصل") || text.includes("رقم")){
 
-else if(text.includes("تواصل") || text.includes("رقم") || text.includes("هاتف")){
+        answer="رقم الهاتف: 0565120349 - البريد: Abdallahelshahat027@gmail.com";
 
-answer="رقم الهاتف: 0565120349 - البريد الإلكتروني: Abdallahelshahat027@gmail.com";
+    }
 
-}
+    else if(text.includes("kpi") || text.includes("إنجاز")){
 
-else if(text.includes("kpi") || text.includes("انجاز")){
+        answer="حققت خفضاً في تكاليف الشراء بنسبة 15% وتقليل زمن التوريد بنسبة 25%.";
 
-answer="حققت خفضاً في تكاليف المشتريات بنسبة تصل إلى 15% وتقليل زمن التوريد بنسبة 25% مع الحفاظ على دقة مخزون تتجاوز 98%.";
+    }
 
-}
+    else{
 
-else{
+        answer="يمكنك سؤالي عن الخبرات، المهارات، المؤهلات، اللغات أو معلومات التواصل.";
 
-answer="يمكنك سؤالي عن الخبرات، المهارات، المؤهلات، اللغات، الإنجازات أو معلومات التواصل.";
+    }
 
-}
+    const bot=document.createElement("div");
+    bot.className="bot-message";
 
-let bot=document.createElement("div");
+    chatBox.appendChild(bot);
 
-bot.className="bot-message";
+    let i=0;
 
-chat.appendChild(bot);
+    const typing=setInterval(()=>{
 
-let i=0;
+        bot.innerHTML="🤖 "+answer.substring(0,i);
 
-let speed=setInterval(()=>{
+        i++;
 
-bot.innerHTML="🤖 "+answer.substring(0,i);
+        if(i>answer.length){
 
-i++;
+            clearInterval(typing);
 
-if(i>answer.length){
+        }
 
-clearInterval(speed);
+    },20);
 
-}
+    chatBox.scrollTop=chatBox.scrollHeight;
 
-},20);
-
-chat.scrollTop=chat.scrollHeight;
-
-input.value="";
+    question.value="";
 
 }
 
-document.getElementById("question").addEventListener("keypress",function(e){
+question.addEventListener("keypress",(e)=>{
 
-if(e.key==="Enter"){
+    if(e.key==="Enter"){
 
-askAI();
+        askAI();
 
-}
-
-});// ===============================
-// فتح وإغلاق البطاقات
-// ===============================
-
-const buttons = document.querySelectorAll(".card-btn");
-const cards = document.querySelectorAll(".popup-card");
-
-buttons.forEach(button=>{
-
-button.onclick=function(){
-
-cards.forEach(card=>{
-
-card.classList.remove("active");
+    }
 
 });
-
-const target=document.getElementById(this.dataset.target);
-
-if(target){
-
-target.classList.add("active");
-
-target.scrollIntoView({
-
-behavior:"smooth",
-block:"start"
-
-});
-
-}
-
-};
-
-});
-
-// ===============================
-// ترجمة عربي / إنجليزي
-// ===============================
-
-let lang="ar";
-
-const translateBtn=document.getElementById("translateBtn");
-
-if(translateBtn){
-
-translateBtn.onclick=function(){
-
-if(lang=="ar"){
-
-lang="en";
-
-translateBtn.innerHTML='<i class="fa-solid fa-language"></i> عربي';
-
-document.documentElement.lang="en";
-document.documentElement.dir="ltr";
-
-}else{
-
-lang="ar";
-
-translateBtn.innerHTML='<i class="fa-solid fa-language"></i> English';
-
-document.documentElement.lang="ar";
-document.documentElement.dir="rtl";
-
-}
-// ===============================
-// Animation On Scroll
-// ===============================
-
-const sections=document.querySelectorAll(".section");
-
-const observer=new IntersectionObserver((entries)=>{
-
-entries.forEach(entry=>{
-
-if(entry.isIntersecting){
-
-entry.target.style.opacity="1";
-entry.target.style.transform="translateY(0)";
-
-}
-
-});
-
-},{
-threshold:0.2
-});
-
-sections.forEach(section=>{
-
-section.style.opacity="0";
-section.style.transform="translateY(50px)";
-section.style.transition=".7s";
-
-observer.observe(section);
-
-});
-
-// ===============================
-// Welcome Message
-// ===============================
-
-window.addEventListener("load",()=>{
-
-setTimeout(()=>{
-
-console.log("Welcome To Abdallah Portfolio AI");
-
-},500);
-
-});
-
-// ===============================
-// Current Year
-// ===============================
-
-const year=document.getElementById("year");
-
-if(year){
-
-year.textContent=new Date().getFullYear();
-
-}
-
-// ===============================
-// Active Menu
-// ===============================
-
-const navLinks=document.querySelectorAll(".sidebar nav a");
-
-window.addEventListener("scroll",()=>{
-
-let current="";
-
-sections.forEach(section=>{
-
-const top=section.offsetTop-150;
-
-if(scrollY>=top){
-
-current=section.getAttribute("id");
-
-}
-
-});
-
-navLinks.forEach(link=>{
-
-link.classList.remove("active");
-
-if(link.getAttribute("href")=="#"+current){
-
-link.classList.add("active");
-
-}
-
-});
-
-});
-
-// ===============================
-// End
-// ===============================
-};
-
-}
-  
-  
-
-
